@@ -1,0 +1,60 @@
+---
+title: "RR"
+author: "karen"
+date: "2025-10-23"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r cars}
+#install.packages("tuneR")
+
+library(tuneR)
+
+# ファイルを読み込む
+sound <- readMP3("始まりの音.mp3")
+
+# WAVとして書き出す
+writeWave(sound, "始まりの音.wav")
+
+cat("変換完了！ 🎵\n")
+
+```
+
+## Including Plots
+
+You can also embed plots, for example:
+
+```{r pressure, echo=FALSE}
+# --- 必要パッケージの読み込み ---
+if (!require("tuneR")) install.packages("tuneR", dependencies = TRUE)
+library(tuneR)
+
+# --- 作業ディレクトリをこのスクリプトの場所に設定 ---
+setwd(dirname(rstudioapi::getActiveDocumentContext()$path))
+
+# --- フォルダ内のmp3ファイルを取得 ---
+mp3_files <- list.files(pattern = "\\.mp3$", ignore.case = TRUE)
+
+# --- mp3 → wav 変換ループ ---
+for (f in mp3_files) {
+  wav_name <- sub("\\.mp3$", ".wav", f)
+  cat("🎧 変換中:", f, "→", wav_name, "...\n")
+  sound <- readMP3(f)
+  writeWave(sound, wav_name)
+}
+
+cat("\n✅ すべてのmp3をwavに変換しました！ 🎵\n")
+
+```
+
+Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
